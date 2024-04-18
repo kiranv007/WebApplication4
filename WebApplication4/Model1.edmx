@@ -1,0 +1,529 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="CasestudyModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Admin">
+          <Key>
+            <PropertyRef Name="AdminID" />
+          </Key>
+          <Property Name="AdminID" Type="int" Nullable="false" />
+          <Property Name="Username" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BookingRequests">
+          <Key>
+            <PropertyRef Name="RequestID" />
+          </Key>
+          <Property Name="RequestID" Type="int" Nullable="false" />
+          <Property Name="CarID" Type="int" />
+          <Property Name="CustomerID" Type="int" />
+          <Property Name="RequestDate" Type="date" />
+          <Property Name="Status" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Bookings">
+          <Key>
+            <PropertyRef Name="BookingID" />
+          </Key>
+          <Property Name="BookingID" Type="int" Nullable="false" />
+          <Property Name="CarID" Type="int" />
+          <Property Name="CustomerID" Type="int" />
+          <Property Name="BookingDate" Type="date" />
+          <Property Name="BookingAmount" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Status" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="BranchDetails">
+          <Key>
+            <PropertyRef Name="BranchID" />
+          </Key>
+          <Property Name="BranchID" Type="int" Nullable="false" />
+          <Property Name="BranchName" Type="varchar" MaxLength="100" />
+          <Property Name="City" Type="varchar" MaxLength="100" />
+          <Property Name="Address" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="CarDetails">
+          <Key>
+            <PropertyRef Name="CarID" />
+          </Key>
+          <Property Name="CarID" Type="int" Nullable="false" />
+          <Property Name="CarName" Type="varchar" MaxLength="100" />
+          <Property Name="CarModel" Type="varchar" MaxLength="100" />
+          <Property Name="CarPrice" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="ShowroomID" Type="int" />
+        </EntityType>
+        <EntityType Name="CarOptions">
+          <Key>
+            <PropertyRef Name="CarID" />
+          </Key>
+          <Property Name="CarID" Type="int" Nullable="false" />
+          <Property Name="CarName" Type="varchar" MaxLength="100" />
+          <Property Name="CarModel" Type="varchar" MaxLength="100" />
+          <Property Name="CarPrice" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="ShowroomID" Type="int" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="Username" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CustomerDetails">
+          <Key>
+            <PropertyRef Name="CustomerID" />
+          </Key>
+          <Property Name="CustomerID" Type="int" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="100" />
+          <Property Name="LastName" Type="varchar" MaxLength="100" />
+          <Property Name="Email" Type="varchar" MaxLength="100" />
+          <Property Name="Phone" Type="varchar" MaxLength="15" />
+        </EntityType>
+        <EntityType Name="Schemes">
+          <Key>
+            <PropertyRef Name="SchemeID" />
+          </Key>
+          <Property Name="SchemeID" Type="int" Nullable="false" />
+          <Property Name="SchemeName" Type="varchar" MaxLength="100" />
+          <Property Name="Description" Type="text" />
+        </EntityType>
+        <Association Name="FK__BookingRe__CarID__5441852A">
+          <End Role="CarDetails" Type="Self.CarDetails" Multiplicity="0..1" />
+          <End Role="BookingRequests" Type="Self.BookingRequests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CarDetails">
+              <PropertyRef Name="CarID" />
+            </Principal>
+            <Dependent Role="BookingRequests">
+              <PropertyRef Name="CarID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__BookingRe__Custo__5535A963">
+          <End Role="CustomerDetails" Type="Self.CustomerDetails" Multiplicity="0..1" />
+          <End Role="BookingRequests" Type="Self.BookingRequests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomerDetails">
+              <PropertyRef Name="CustomerID" />
+            </Principal>
+            <Dependent Role="BookingRequests">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Bookings__CarID__5CD6CB2B">
+          <End Role="CarOptions" Type="Self.CarOptions" Multiplicity="0..1" />
+          <End Role="Bookings" Type="Self.Bookings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CarOptions">
+              <PropertyRef Name="CarID" />
+            </Principal>
+            <Dependent Role="Bookings">
+              <PropertyRef Name="CarID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Bookings__Custom__5DCAEF64">
+          <End Role="CustomerDetails" Type="Self.CustomerDetails" Multiplicity="0..1" />
+          <End Role="Bookings" Type="Self.Bookings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomerDetails">
+              <PropertyRef Name="CustomerID" />
+            </Principal>
+            <Dependent Role="Bookings">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CarDetail__Showr__4D94879B">
+          <End Role="BranchDetails" Type="Self.BranchDetails" Multiplicity="0..1" />
+          <End Role="CarDetails" Type="Self.CarDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BranchDetails">
+              <PropertyRef Name="BranchID" />
+            </Principal>
+            <Dependent Role="CarDetails">
+              <PropertyRef Name="ShowroomID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CarOption__Showr__59FA5E80">
+          <End Role="BranchDetails" Type="Self.BranchDetails" Multiplicity="0..1" />
+          <End Role="CarOptions" Type="Self.CarOptions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BranchDetails">
+              <PropertyRef Name="BranchID" />
+            </Principal>
+            <Dependent Role="CarOptions">
+              <PropertyRef Name="ShowroomID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CasestudyModelStoreContainer">
+          <EntitySet Name="Admin" EntityType="Self.Admin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BookingRequests" EntityType="Self.BookingRequests" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Bookings" EntityType="Self.Bookings" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BranchDetails" EntityType="Self.BranchDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CarDetails" EntityType="Self.CarDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CarOptions" EntityType="Self.CarOptions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CustomerDetails" EntityType="Self.CustomerDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Schemes" EntityType="Self.Schemes" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__BookingRe__CarID__5441852A" Association="Self.FK__BookingRe__CarID__5441852A">
+            <End Role="CarDetails" EntitySet="CarDetails" />
+            <End Role="BookingRequests" EntitySet="BookingRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK__BookingRe__Custo__5535A963" Association="Self.FK__BookingRe__Custo__5535A963">
+            <End Role="CustomerDetails" EntitySet="CustomerDetails" />
+            <End Role="BookingRequests" EntitySet="BookingRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Bookings__CarID__5CD6CB2B" Association="Self.FK__Bookings__CarID__5CD6CB2B">
+            <End Role="CarOptions" EntitySet="CarOptions" />
+            <End Role="Bookings" EntitySet="Bookings" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Bookings__Custom__5DCAEF64" Association="Self.FK__Bookings__Custom__5DCAEF64">
+            <End Role="CustomerDetails" EntitySet="CustomerDetails" />
+            <End Role="Bookings" EntitySet="Bookings" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CarDetail__Showr__4D94879B" Association="Self.FK__CarDetail__Showr__4D94879B">
+            <End Role="BranchDetails" EntitySet="BranchDetails" />
+            <End Role="CarDetails" EntitySet="CarDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CarOption__Showr__59FA5E80" Association="Self.FK__CarOption__Showr__59FA5E80">
+            <End Role="BranchDetails" EntitySet="BranchDetails" />
+            <End Role="CarOptions" EntitySet="CarOptions" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CasestudyModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Admin">
+          <Key>
+            <PropertyRef Name="AdminID" />
+          </Key>
+          <Property Name="AdminID" Type="Int32" Nullable="false" />
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BookingRequest">
+          <Key>
+            <PropertyRef Name="RequestID" />
+          </Key>
+          <Property Name="RequestID" Type="Int32" Nullable="false" />
+          <Property Name="CarID" Type="Int32" />
+          <Property Name="CustomerID" Type="Int32" />
+          <Property Name="RequestDate" Type="DateTime" Precision="0" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CarDetail" Relationship="Self.FK__BookingRe__CarID__5441852A" FromRole="BookingRequests" ToRole="CarDetails" />
+          <NavigationProperty Name="CustomerDetail" Relationship="Self.FK__BookingRe__Custo__5535A963" FromRole="BookingRequests" ToRole="CustomerDetails" />
+        </EntityType>
+        <EntityType Name="Booking">
+          <Key>
+            <PropertyRef Name="BookingID" />
+          </Key>
+          <Property Name="BookingID" Type="Int32" Nullable="false" />
+          <Property Name="CarID" Type="Int32" />
+          <Property Name="CustomerID" Type="Int32" />
+          <Property Name="BookingDate" Type="DateTime" Precision="0" />
+          <Property Name="BookingAmount" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CarOption" Relationship="Self.FK__Bookings__CarID__5CD6CB2B" FromRole="Bookings" ToRole="CarOptions" />
+          <NavigationProperty Name="CustomerDetail" Relationship="Self.FK__Bookings__Custom__5DCAEF64" FromRole="Bookings" ToRole="CustomerDetails" />
+        </EntityType>
+        <EntityType Name="BranchDetail">
+          <Key>
+            <PropertyRef Name="BranchID" />
+          </Key>
+          <Property Name="BranchID" Type="Int32" Nullable="false" />
+          <Property Name="BranchName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="City" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CarDetails" Relationship="Self.FK__CarDetail__Showr__4D94879B" FromRole="BranchDetails" ToRole="CarDetails" />
+          <NavigationProperty Name="CarOptions" Relationship="Self.FK__CarOption__Showr__59FA5E80" FromRole="BranchDetails" ToRole="CarOptions" />
+        </EntityType>
+        <EntityType Name="CarDetail">
+          <Key>
+            <PropertyRef Name="CarID" />
+          </Key>
+          <Property Name="CarID" Type="Int32" Nullable="false" />
+          <Property Name="CarName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CarModel" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CarPrice" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="ShowroomID" Type="Int32" />
+          <NavigationProperty Name="BookingRequests" Relationship="Self.FK__BookingRe__CarID__5441852A" FromRole="CarDetails" ToRole="BookingRequests" />
+          <NavigationProperty Name="BranchDetail" Relationship="Self.FK__CarDetail__Showr__4D94879B" FromRole="CarDetails" ToRole="BranchDetails" />
+        </EntityType>
+        <EntityType Name="CarOption">
+          <Key>
+            <PropertyRef Name="CarID" />
+          </Key>
+          <Property Name="CarID" Type="Int32" Nullable="false" />
+          <Property Name="CarName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CarModel" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CarPrice" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="ShowroomID" Type="Int32" />
+          <NavigationProperty Name="Bookings" Relationship="Self.FK__Bookings__CarID__5CD6CB2B" FromRole="CarOptions" ToRole="Bookings" />
+          <NavigationProperty Name="BranchDetail" Relationship="Self.FK__CarOption__Showr__59FA5E80" FromRole="CarOptions" ToRole="BranchDetails" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CustomerDetail">
+          <Key>
+            <PropertyRef Name="CustomerID" />
+          </Key>
+          <Property Name="CustomerID" Type="Int32" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Phone" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="BookingRequests" Relationship="Self.FK__BookingRe__Custo__5535A963" FromRole="CustomerDetails" ToRole="BookingRequests" />
+          <NavigationProperty Name="Bookings" Relationship="Self.FK__Bookings__Custom__5DCAEF64" FromRole="CustomerDetails" ToRole="Bookings" />
+        </EntityType>
+        <EntityType Name="Scheme">
+          <Key>
+            <PropertyRef Name="SchemeID" />
+          </Key>
+          <Property Name="SchemeID" Type="Int32" Nullable="false" />
+          <Property Name="SchemeName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK__BookingRe__CarID__5441852A">
+          <End Role="CarDetails" Type="Self.CarDetail" Multiplicity="0..1" />
+          <End Role="BookingRequests" Type="Self.BookingRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CarDetails">
+              <PropertyRef Name="CarID" />
+            </Principal>
+            <Dependent Role="BookingRequests">
+              <PropertyRef Name="CarID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__BookingRe__Custo__5535A963">
+          <End Role="CustomerDetails" Type="Self.CustomerDetail" Multiplicity="0..1" />
+          <End Role="BookingRequests" Type="Self.BookingRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomerDetails">
+              <PropertyRef Name="CustomerID" />
+            </Principal>
+            <Dependent Role="BookingRequests">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Bookings__CarID__5CD6CB2B">
+          <End Role="CarOptions" Type="Self.CarOption" Multiplicity="0..1" />
+          <End Role="Bookings" Type="Self.Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CarOptions">
+              <PropertyRef Name="CarID" />
+            </Principal>
+            <Dependent Role="Bookings">
+              <PropertyRef Name="CarID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Bookings__Custom__5DCAEF64">
+          <End Role="CustomerDetails" Type="Self.CustomerDetail" Multiplicity="0..1" />
+          <End Role="Bookings" Type="Self.Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomerDetails">
+              <PropertyRef Name="CustomerID" />
+            </Principal>
+            <Dependent Role="Bookings">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CarDetail__Showr__4D94879B">
+          <End Role="BranchDetails" Type="Self.BranchDetail" Multiplicity="0..1" />
+          <End Role="CarDetails" Type="Self.CarDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BranchDetails">
+              <PropertyRef Name="BranchID" />
+            </Principal>
+            <Dependent Role="CarDetails">
+              <PropertyRef Name="ShowroomID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CarOption__Showr__59FA5E80">
+          <End Role="BranchDetails" Type="Self.BranchDetail" Multiplicity="0..1" />
+          <End Role="CarOptions" Type="Self.CarOption" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BranchDetails">
+              <PropertyRef Name="BranchID" />
+            </Principal>
+            <Dependent Role="CarOptions">
+              <PropertyRef Name="ShowroomID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CasestudyEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Admins" EntityType="Self.Admin" />
+          <EntitySet Name="BookingRequests" EntityType="Self.BookingRequest" />
+          <EntitySet Name="Bookings" EntityType="Self.Booking" />
+          <EntitySet Name="BranchDetails" EntityType="Self.BranchDetail" />
+          <EntitySet Name="CarDetails" EntityType="Self.CarDetail" />
+          <EntitySet Name="CarOptions" EntityType="Self.CarOption" />
+          <EntitySet Name="Customers" EntityType="Self.Customer" />
+          <EntitySet Name="CustomerDetails" EntityType="Self.CustomerDetail" />
+          <EntitySet Name="Schemes" EntityType="Self.Scheme" />
+          <AssociationSet Name="FK__BookingRe__CarID__5441852A" Association="Self.FK__BookingRe__CarID__5441852A">
+            <End Role="CarDetails" EntitySet="CarDetails" />
+            <End Role="BookingRequests" EntitySet="BookingRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK__BookingRe__Custo__5535A963" Association="Self.FK__BookingRe__Custo__5535A963">
+            <End Role="CustomerDetails" EntitySet="CustomerDetails" />
+            <End Role="BookingRequests" EntitySet="BookingRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Bookings__CarID__5CD6CB2B" Association="Self.FK__Bookings__CarID__5CD6CB2B">
+            <End Role="CarOptions" EntitySet="CarOptions" />
+            <End Role="Bookings" EntitySet="Bookings" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Bookings__Custom__5DCAEF64" Association="Self.FK__Bookings__Custom__5DCAEF64">
+            <End Role="CustomerDetails" EntitySet="CustomerDetails" />
+            <End Role="Bookings" EntitySet="Bookings" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CarDetail__Showr__4D94879B" Association="Self.FK__CarDetail__Showr__4D94879B">
+            <End Role="BranchDetails" EntitySet="BranchDetails" />
+            <End Role="CarDetails" EntitySet="CarDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CarOption__Showr__59FA5E80" Association="Self.FK__CarOption__Showr__59FA5E80">
+            <End Role="BranchDetails" EntitySet="BranchDetails" />
+            <End Role="CarOptions" EntitySet="CarOptions" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CasestudyModelStoreContainer" CdmEntityContainer="CasestudyEntities">
+          <EntitySetMapping Name="Admins">
+            <EntityTypeMapping TypeName="CasestudyModel.Admin">
+              <MappingFragment StoreEntitySet="Admin">
+                <ScalarProperty Name="AdminID" ColumnName="AdminID" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BookingRequests">
+            <EntityTypeMapping TypeName="CasestudyModel.BookingRequest">
+              <MappingFragment StoreEntitySet="BookingRequests">
+                <ScalarProperty Name="RequestID" ColumnName="RequestID" />
+                <ScalarProperty Name="CarID" ColumnName="CarID" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="RequestDate" ColumnName="RequestDate" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Bookings">
+            <EntityTypeMapping TypeName="CasestudyModel.Booking">
+              <MappingFragment StoreEntitySet="Bookings">
+                <ScalarProperty Name="BookingID" ColumnName="BookingID" />
+                <ScalarProperty Name="CarID" ColumnName="CarID" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="BookingDate" ColumnName="BookingDate" />
+                <ScalarProperty Name="BookingAmount" ColumnName="BookingAmount" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BranchDetails">
+            <EntityTypeMapping TypeName="CasestudyModel.BranchDetail">
+              <MappingFragment StoreEntitySet="BranchDetails">
+                <ScalarProperty Name="BranchID" ColumnName="BranchID" />
+                <ScalarProperty Name="BranchName" ColumnName="BranchName" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CarDetails">
+            <EntityTypeMapping TypeName="CasestudyModel.CarDetail">
+              <MappingFragment StoreEntitySet="CarDetails">
+                <ScalarProperty Name="CarID" ColumnName="CarID" />
+                <ScalarProperty Name="CarName" ColumnName="CarName" />
+                <ScalarProperty Name="CarModel" ColumnName="CarModel" />
+                <ScalarProperty Name="CarPrice" ColumnName="CarPrice" />
+                <ScalarProperty Name="ShowroomID" ColumnName="ShowroomID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CarOptions">
+            <EntityTypeMapping TypeName="CasestudyModel.CarOption">
+              <MappingFragment StoreEntitySet="CarOptions">
+                <ScalarProperty Name="CarID" ColumnName="CarID" />
+                <ScalarProperty Name="CarName" ColumnName="CarName" />
+                <ScalarProperty Name="CarModel" ColumnName="CarModel" />
+                <ScalarProperty Name="CarPrice" ColumnName="CarPrice" />
+                <ScalarProperty Name="ShowroomID" ColumnName="ShowroomID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="CasestudyModel.Customer">
+              <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CustomerDetails">
+            <EntityTypeMapping TypeName="CasestudyModel.CustomerDetail">
+              <MappingFragment StoreEntitySet="CustomerDetails">
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Schemes">
+            <EntityTypeMapping TypeName="CasestudyModel.Scheme">
+              <MappingFragment StoreEntitySet="Schemes">
+                <ScalarProperty Name="SchemeID" ColumnName="SchemeID" />
+                <ScalarProperty Name="SchemeName" ColumnName="SchemeName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
